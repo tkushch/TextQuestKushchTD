@@ -2,6 +2,8 @@ package com.company;
 
 import com.sun.jdi.IntegerValue;
 
+import java.sql.Struct;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class UI {
@@ -16,18 +18,23 @@ public class UI {
     }
 
     public int getChoice(Location loc) {
-        boolean ok = false;
+        boolean ok1 = false, ok2 = false;
         int choice = 0;
-        while (!ok) {
+        while (!ok1 || !ok2) {
+            ok1 = false;
+            ok2 = false;
             try {
                 choice = inp.nextInt() - 1;
-                ok = true;
-            } catch (Exception e) {
-                System.out.println("incorrect value");
+                ok1 = true;
             }
-            if (ok) {
+            catch (InputMismatchException e){
+                inp.next();
+                System.out.println("incorrect value");
+
+            }
+            if (ok1) {
                 if (0 <= choice && choice < loc.actions.length) {
-                    ok = true;
+                    ok2 = true;
                 } else {
                     System.out.println("incorrect value");
                 }
